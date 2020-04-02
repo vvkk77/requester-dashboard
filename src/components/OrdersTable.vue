@@ -1,88 +1,109 @@
 <template>
     <div>
-        <b-table
-            :current-page.sync="currentPage"
-            :data="orderList"
-            :default-sort-direction="defaultSortDirection"
-            :paginated="isPaginated"
-            :pagination-position="paginationPosition"
-            :per-page="perPage"
-            :sort-icon="sortIcon"
-            :sort-icon-size="sortIconSize"
-        >
-            <template slot-scope="props">
-                <b-table-column field="createAt" label="Raised on" sortable>
-                    <div class="has-text-dark is-size-6">
-                        {{ props.row.createdAt | formatDate }}
-                    </div>
-                    <div class="has-text-grey is-size-6">
-                        {{ props.row.createdAt | formatTime }}
-                    </div>
-                </b-table-column>
-
-                <b-table-column field="type" label="Request Type" sortable>
-                    <lozenge
-                        :type="
-                            props.row.orderType == 'person'
-                                ? 'primary'
-                                : 'warning'
-                        "
-                        >{{ props.row.orderType | formatRequestLabel }}</lozenge
+        <transition mode="out-in" name="fade">
+            <b-table
+                :current-page.sync="currentPage"
+                :data="orderList"
+                :default-sort-direction="defaultSortDirection"
+                :paginated="isPaginated"
+                :pagination-position="paginationPosition"
+                :per-page="perPage"
+                :sort-icon="sortIcon"
+                :sort-icon-size="sortIconSize"
+                v-if="orderList.length > 0"
+            >
+                <template slot-scope="props">
+                    <b-table-column
+                        field="createdAt"
+                        label="Raised on"
+                        sortable
                     >
-                </b-table-column>
+                        <div class="has-text-dark is-size-6">
+                            {{ props.row.createdAt | formatDate }}
+                        </div>
+                        <div class="has-text-grey is-size-6">
+                            {{ props.row.createdAt | formatTime }}
+                        </div>
+                    </b-table-column>
 
-                <b-table-column
-                    field="passCount"
-                    label="No. of Passes"
-                    sortable
-                    >{{ props.row.requestCount }}</b-table-column
-                >
-
-                <b-table-column field="passCount" label="Purpose" sortable>{{
-                    props.row.purpose
-                }}</b-table-column>
-
-                <b-table-column field="status" label="Status" sortable>
-                    <span
-                        :class="
-                            `has-text-${getStatusClass(props.row.orderStatus)}`
-                        "
-                        class="has-text-weight-bold is-uppercase"
-                        >{{ props.row.orderStatus | formatStatusLabel }}</span
+                    <b-table-column
+                        field="orderType"
+                        label="Request Type"
+                        sortable
                     >
-                </b-table-column>
-                <b-table-column field="zipFileURL" label=" ">
-                    <b-button
-                        @click="downloadQRCodes(props.row.id)"
-                        class="has-text-primary has-text-weight-semibold"
-                        icon-left="download"
+                        <lozenge
+                            :type="
+                                props.row.orderType == 'person'
+                                    ? 'primary'
+                                    : 'warning'
+                            "
+                            >{{
+                                props.row.orderType | formatRequestLabel
+                            }}</lozenge
+                        >
+                    </b-table-column>
+
+                    <b-table-column
+                        field="requestCount"
+                        label="No. of Passes"
+                        sortable
+                        >{{ props.row.requestCount }}</b-table-column
+                    >
+
+                    <b-table-column field="passCount" label="Purpose" sortable>
+                        {{ props.row.purpose }}
+                    </b-table-column>
+
+                    <b-table-column field="orderStatus" label="Status" sortable>
+                        <span
+                            :class="
+                                `has-text-${getStatusClass(
+                                    props.row.orderStatus
+                                )}`
+                            "
+                            class="has-text-weight-bold is-uppercase"
+                            >{{
+                                props.row.orderStatus | formatStatusLabel
+                            }}</span
+                        >
+                    </b-table-column>
+                    <b-table-column field="zipFileURL" label=" ">
+                        <b-button
+                            @click="downloadQRCodes(props.row.id)"
+                            class="has-text-primary has-text-weight-semibold"
+                            icon-left="download"
+                            size="is-small"
+                            tag="a"
+                            type="is-white"
+                            v-if="props.row.zipFileURL"
+                            >DOWNLOAD QR</b-button
+                        >
+                    </b-table-column>
+                </template>
+
+                <template slot="bottom-left">
+                    <span class="is-size-7 has-text-weight-bold m-r-8"
+                        >Request per page:</span
+                    >
+                    <b-select
+                        placeholder="Select a character"
                         size="is-small"
-                        tag="a"
-                        type="is-white"
-                        v-if="props.row.zipFileURL"
-                        >DOWNLOAD QR</b-button
+                        v-model="perPage"
                     >
-                </b-table-column>
-            </template>
+                        <option
+                            :key="index"
+                            :value="item"
+                            v-for="(item, index) in [10, 25, 50]"
+                            >{{ item }}</option
+                        >
+                    </b-select>
+                </template>
+            </b-table>
 
-            <template slot="bottom-left">
-                <span class="is-size-7 has-text-weight-bold m-r-8"
-                    >Request per page:</span
-                >
-                <b-select
-                    placeholder="Select a character"
-                    size="is-small"
-                    v-model="perPage"
-                >
-                    <option
-                        :key="index"
-                        :value="item"
-                        v-for="(item, index) in [10, 25, 50]"
-                        >{{ item }}</option
-                    >
-                </b-select>
-            </template>
-        </b-table>
+            <div class="no-request-image" v-else>
+                <img alt src="../assets/no-request.png" />
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -94,16 +115,12 @@ import { showSuccess, showError } from '../utils/toast';
 
 export default {
     name: 'OrdersTable',
-    props: {
-        data: Array
-    },
 
     components: {
         Lozenge
     },
     data() {
         return {
-            orderList: this.data,
             isPaginated: true,
             paginationPosition: 'bottom',
             defaultSortDirection: 'asc',
@@ -113,6 +130,13 @@ export default {
             perPage: 10
         };
     },
+
+    computed: {
+        orderList() {
+            return this.$store.state.orderList;
+        }
+    },
+
     filters: {
         formatDate(date) {
             return dayjs(new Date(date)).format('DD MMM YY');
@@ -138,6 +162,10 @@ export default {
     },
 
     methods: {
+        fetchOrders() {
+            this.$store.dispatch('fetchOrders');
+        },
+
         async downloadQRCodes(orderId) {
             try {
                 const { data } = await EPassService.downloadQRCodes(orderId);
@@ -155,19 +183,17 @@ export default {
             }
         },
         getStatusClass(status) {
-            switch (status) {
-                case 'created':
-                    return 'warning';
+            if (status.match('created|processing')) return 'warning';
 
-                case 'declined':
-                    return 'danger';
+            if (status.match('declined|failed|invalid_file')) return 'danger';
 
-                case 'approved':
-                    return 'success';
-            }
+            if (status.match('approved')) return 'success';
 
             return 'primary';
         }
+    },
+    created() {
+        this.fetchOrders();
     }
 };
 </script>

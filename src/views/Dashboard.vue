@@ -9,7 +9,7 @@
                             <div
                                 class="has-text-black is-size-5 has-text-weight-semibold"
                             >
-                                {{ orderList.length | formatNumber }} Requests
+                                {{ totalOrders | formatNumber }} Requests
                             </div>
                             <div class="seperator"></div>
                             <div
@@ -30,10 +30,7 @@
                     </div>
                 </div>
 
-                <div class="no-request-image" v-if="orderList.length === 0">
-                    <img alt src="../assets/no-request.png" />
-                </div>
-                <orders-table :data.sync="orderList" v-else></orders-table>
+                <orders-table></orders-table>
             </div>
         </div>
         <create-request
@@ -59,12 +56,6 @@ export default {
         OrdersTable
     },
     data() {
-        let reqOrderList = localStorage.getItem('reqOrderList');
-
-        if (reqOrderList) {
-            reqOrderList = JSON.parse(reqOrderList);
-        }
-
         let org = localStorage.getItem('org');
 
         if (org) {
@@ -73,9 +64,14 @@ export default {
 
         return {
             openCR: false,
-            orderList: reqOrderList || [],
             org: org || {}
         };
+    },
+
+    computed: {
+        totalOrders() {
+            return this.$store.state.orderList.length;
+        }
     },
     filters: {
         formatNumber(number) {
@@ -85,20 +81,6 @@ export default {
     methods: {
         openCreateRequest() {
             this.openCR = true;
-        },
-
-        async fetchOrders() {
-            try {
-                const { data } = await EPassService.getOrders();
-
-                this.orderList = data.orders;
-                localStorage.setItem(
-                    'reqOrderList',
-                    JSON.stringify(data.orders)
-                );
-            } catch (error) {
-                showError('Unable to fetch requests');
-            }
         },
 
         async fetchOrg() {
@@ -114,12 +96,12 @@ export default {
 
         onOrderSuccess() {
             this.openCR = false;
-            this.fetchOrders();
+
+            this.$store.dispatch('fetchOrders');
         }
     },
 
     mounted() {
-        this.fetchOrders();
         this.fetchOrg();
     }
 };
