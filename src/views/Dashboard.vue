@@ -15,34 +15,8 @@
                             <div
                                 class="is-block has-text-black has-text-weight-semibold"
                             >
-                                <div class="is-size-6">
-                                    {{ org.activePassLimit | formatNumber }}
-                                    passes
-                                </div>
-
-                                <div class="is-size-7 has-text-weight-normal">
-                                    Overall limit
-                                </div>
+                                <div class="is-size-5">{{ org.name }}</div>
                             </div>
-                            <template v-if="org.activePassCount">
-                                <div class="seperator"></div>
-                                <div class="is-block has-text-black">
-                                    <div class="is-size-6 has-text-success">
-                                        {{
-                                            (org.activePassLimit -
-                                                org.activePassCount)
-                                                | formatNumber
-                                        }}
-                                        passes
-                                    </div>
-
-                                    <div
-                                        class="is-size-7 has-text-weight-normal"
-                                    >
-                                        Available
-                                    </div>
-                                </div>
-                            </template>
                         </div>
                     </div>
                     <div class="level-right">

@@ -6,41 +6,8 @@
                     <div class="title is-4">Create Request</div>
                     <br />
 
-                    <transition mode="out-in" name="fade">
-                        <div v-if="!selectedReason">
-                            <div class="title is-6">
-                                Choose an eligble service
-                            </div>
-                            <div class="subtitle is-7">
-                                Only staff engaged in services from this list
-                                are entitled to receive passes!
-                            </div>
-
-                            <ul class="reason-list-container">
-                                <li
-                                    :key="i"
-                                    @click="setReason(reason)"
-                                    v-for="(reason, i) in reasonList"
-                                >
-                                    <div>{{ reason }}</div>
-                                    <b-icon
-                                        :style="{
-                                            opacity:
-                                                reason === selectedReason
-                                                    ? 1
-                                                    : 0.4
-                                        }"
-                                        :type="{
-                                            'is-primary':
-                                                reason === selectedReason
-                                        }"
-                                        icon="check-circle"
-                                    ></b-icon>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div v-else>
+                    <transition appear mode="out-in" name="fade">
+                        <div>
                             <div class="subtitle is-6">
                                 NOTE: You can claim upto 5,000 passes
                                 <br />only, in a single request
@@ -93,9 +60,9 @@
                                     icon="check-circle"
                                     type="is-success"
                                 ></b-icon>
-                                <span class="subtitle is-6">{{
-                                    file.name
-                                }}</span>
+                                <span class="subtitle is-6">
+                                    {{ file.name }}
+                                </span>
                             </div>
                             <br />
                             <div
@@ -127,8 +94,8 @@
                 </template>
             </transition>
 
-            <transition name="slideInBottom">
-                <div class="step-navigtion-container" v-if="selectedReason">
+            <transition appear name="slideInBottom">
+                <div class="step-navigtion-container">
                     <b-button
                         :disabled="disableBtn"
                         :loading="loading"
@@ -160,17 +127,8 @@ export default {
     },
     data() {
         return {
-            selectedReason: null,
+            selectedReason: 'Essential services',
             passType: 'person',
-            reasonList: [
-                'Essentials delivery services',
-                'Medical services',
-                'Hotels / Lodges accomodating tourists',
-                'Private security services',
-                'Cold storage / Warehouse facilities',
-                'Banks, ATM, Insuarance Companies',
-                'Petrol, GAS, LPG station'
-            ],
             file: null,
             apiError: null,
             loading: false,
@@ -181,10 +139,6 @@ export default {
     computed: {
         disableBtn() {
             if (this.loading) {
-                return true;
-            }
-
-            if (!this.selectedReason) {
                 return true;
             }
 
@@ -245,25 +199,6 @@ export default {
     padding: 2rem 0;
     overflow: scroll;
     height: 100%;
-}
-
-.reason-list-container {
-    border-top: 1px solid #c6cbd4;
-    li {
-        padding: 16px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        border-bottom: 1px solid #f5f5f5;
-        display: flex;
-        justify-content: space-between;
-        &:hover {
-            background-color: #f5f5f5;
-        }
-    }
-}
-
-.step-content {
-    margin-top: 24px;
 }
 
 .step-navigtion-container {
