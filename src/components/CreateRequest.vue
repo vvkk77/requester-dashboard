@@ -19,6 +19,8 @@
 
                             <b-button
                                 class="has-text-primary has-text-weight-semibold"
+                                href="../assets/pass-template.csv"
+                                download
                                 icon-left="download"
                                 size="is-small"
                                 tag="a"
@@ -60,9 +62,9 @@
                                     icon="check-circle"
                                     type="is-success"
                                 ></b-icon>
-                                <span class="subtitle is-6">
-                                    {{ file.name }}
-                                </span>
+                                <span class="subtitle is-6">{{
+                                    file.name
+                                }}</span>
                             </div>
                             <br />
                             <div
