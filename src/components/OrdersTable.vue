@@ -50,7 +50,7 @@
                         >{{ props.row.requestCount }}</b-table-column
                     >
 
-                    <b-table-column field="passCount" label="Purpose" sortable>
+                    <b-table-column field="purpose" label="Purpose" sortable>
                         {{ props.row.purpose }}
                     </b-table-column>
 
