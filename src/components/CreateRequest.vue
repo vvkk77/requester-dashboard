@@ -18,8 +18,8 @@
                             <div class="title is-6">Download Template</div>
 
                             <b-button
+                                :href="passTemplateFile"
                                 class="has-text-primary has-text-weight-semibold"
-                                href="../assets/pass-template.csv"
                                 download
                                 icon-left="download"
                                 size="is-small"
@@ -62,9 +62,9 @@
                                     icon="check-circle"
                                     type="is-success"
                                 ></b-icon>
-                                <span class="subtitle is-6">{{
-                                    file.name
-                                }}</span>
+                                <span class="subtitle is-6">
+                                    {{ file.name }}
+                                </span>
                             </div>
                             <br />
                             <div
@@ -145,6 +145,10 @@ export default {
             }
 
             return false;
+        },
+
+        passTemplateFile() {
+            return `${window.location.protocol}//${window.location.host}${process.env.APPLICATION_PATH}pass-template.csv`;
         }
     },
     methods: {
