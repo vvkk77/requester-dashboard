@@ -6,11 +6,28 @@ import Register from '../views/Register.vue';
 import VerifyOTP from '../views/VerifyOTP.vue';
 import ReEnterEmail from '../views/ReEnterEmail.vue';
 import ResetPassword from '../views/ResetPassword.vue';
+import Static from '../views/static';
+import NewLogin from '../views/static/NewLogin.vue';
+import NewDashboard from '../views/static/NewDashboard.vue';
 import { isSessionValid } from '../utils/session';
 
 Vue.use(VueRouter);
 
 const routes = [
+    {
+        path: '/static',
+        component: Static,
+        children: [
+            {
+                path: 'new-login',
+                component: NewLogin
+            },
+            {
+                path: 'new-dashboard',
+                component: NewDashboard
+            }
+        ]
+    },
     {
         path: '/',
         name: Dashboard.name,
