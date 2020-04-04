@@ -7,7 +7,7 @@ import VerifyOTP from '../views/VerifyOTP.vue';
 import ReEnterEmail from '../views/ReEnterEmail.vue';
 import ResetPassword from '../views/ResetPassword.vue';
 import Static from '../views/static';
-import NewLogin from '../views/static/NewLogin.vue';
+import GetOTP from '../views/static/GetOTP.vue';
 import NewDashboard from '../views/static/NewDashboard.vue';
 import { isSessionValid } from '../utils/session';
 
@@ -19,8 +19,8 @@ const routes = [
         component: Static,
         children: [
             {
-                path: 'new-login',
-                component: NewLogin
+                path: 'getotp',
+                component: GetOTP
             },
             {
                 path: 'new-dashboard',
