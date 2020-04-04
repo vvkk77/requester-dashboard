@@ -1,8 +1,9 @@
 const webpack = require('webpack');
 
-const isProd = process.env.NODE_ENV === 'production';
+// const isProd = process.env.NODE_ENV === 'production';
 
-const APPLICATION_PATH = isProd ? '/requester-dashboard/' : '/';
+// const APPLICATION_PATH = isProd ? '/requester-dashboard/' : '/';
+const APPLICATION_PATH = '/';
 
 module.exports = {
     publicPath: APPLICATION_PATH,
