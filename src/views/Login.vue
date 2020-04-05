@@ -11,8 +11,16 @@
                 <b-field label="Phone Number">
                     <b-input></b-input>
                 </b-field>
-                <b-button type="is-primary" @click="requestOtp">
+                <b-button
+                    type="is-primary"
+                    @click="requestOtp"
+                    :disabled="isLoading"
+                >
                     Get OTP
+                    <b-loading
+                        :is-full-page="false"
+                        :active.sync="isLoading"
+                    ></b-loading>
                 </b-button>
             </form>
             <form
@@ -28,7 +36,9 @@
                 <b-field label="OTP">
                     <b-input></b-input>
                 </b-field>
-                <b-button type="is-primary">Login</b-button>
+                <b-button type="is-primary" :disabled="isLoading">
+                    Login
+                </b-button>
                 <p class="text-center" @click="$refs.loginForm.submit()">
                     <a href="#">Resend OTP</a>
                 </p>
@@ -45,6 +55,7 @@ export default {
     components: {},
     data() {
         return {
+            isLoading: false,
             otpForm: true,
             form: {
                 phoneNumber: '',
@@ -54,12 +65,15 @@ export default {
     },
     methods: {
         requestOtp() {
+            this.isLoading = true;
             return authService
                 .requestOtp(this.phoneNumber)
                 .then(() => {
+                    this.isLoading = false;
                     this.otpForm = false;
                 })
                 .catch(() => {
+                    this.isLoading = false;
                     this.$buefy.toast.open({
                         duration: 5000,
                         message: `Something's not right. Please try again later.`,

@@ -67,7 +67,7 @@
                 <b-input></b-input>
             </b-field>
 
-            <b-button type="is-primary">Submit</b-button>
+            <b-button type="is-primary" expanded="true">Submit</b-button>
         </div>
     </section>
 </template>
@@ -87,8 +87,6 @@ export default {
     font-size: 14px;
 }
 .button.is-primary {
-    display: block;
-    width: 100%;
     margin-top: 50px;
 }
 </style>
