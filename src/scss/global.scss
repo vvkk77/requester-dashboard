@@ -28,7 +28,7 @@ label, .label {font-weight: 600; font-size: 14px;}
   }
 }
 
-.page-content {max-width: 800px; margin: 0 auto; padding: 100px;}
+.page-content {max-width: 600px; margin: 0 auto; padding: 100px 0px;}
 
 .form-wrap {}
 
@@ -42,7 +42,7 @@ label, .label {font-weight: 600; font-size: 14px;}
 
 .select select {min-width: 150px;box-shadow: none; border: 1px solid #918291; height: 40px;
   &:focus {border-color: #000000; box-shadow: none;}
-  
+
 }
 
 .field:not(:last-child) {margin-bottom: 20px;}
