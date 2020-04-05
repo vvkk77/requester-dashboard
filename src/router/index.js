@@ -10,7 +10,6 @@ import Static from '../views/static';
 import GetOTP from '../views/static/GetOTP.vue';
 import LabDetails from '../views/static/LabDetails.vue';
 import NewDashboard from '../views/static/NewDashboard.vue';
-import { isSessionValid } from '../utils/session';
 
 Vue.use(VueRouter);
 
@@ -37,10 +36,8 @@ const routes = [
         path: '/',
         name: Dashboard.name,
         component: Dashboard,
-        beforeEnter: (to, from, next) => {
-            if (isSessionValid()) {
-                next();
-            } else next('/login');
+        meta: {
+            auth: true
         }
     },
     {
@@ -71,15 +68,15 @@ const routes = [
     {
         path: '/reset-password/update',
         name: ResetPassword.name,
-        component: ResetPassword,
-        beforeEnter: (to, from, next) => {
-            if (
-                sessionStorage.getItem('auth') &&
-                sessionStorage.getItem('email')
-            ) {
-                next();
-            } else next('/login');
-        }
+        component: ResetPassword
+        // beforeEnter: (to, from, next) => {
+        //     if (
+        //         sessionStorage.getItem('auth') &&
+        //         sessionStorage.getItem('email')
+        //     ) {
+        //         next();
+        //     } else next('/login');
+        // }
     },
     {
         path: '*',
