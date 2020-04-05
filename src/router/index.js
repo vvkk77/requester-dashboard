@@ -6,10 +6,32 @@ import Register from '../views/Register.vue';
 import VerifyOTP from '../views/VerifyOTP.vue';
 import ReEnterEmail from '../views/ReEnterEmail.vue';
 import ResetPassword from '../views/ResetPassword.vue';
+import Static from '../views/static';
+import GetOTP from '../views/static/GetOTP.vue';
+import LabDetails from '../views/static/LabDetails.vue';
+import NewDashboard from '../views/static/NewDashboard.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+    {
+        path: '/static',
+        component: Static,
+        children: [
+            {
+                path: 'getotp',
+                component: GetOTP
+            },
+            {
+                path: 'lab-details',
+                component: LabDetails
+            },
+            {
+                path: 'new-dashboard',
+                component: NewDashboard
+            }
+        ]
+    },
     {
         path: '/',
         name: Dashboard.name,
