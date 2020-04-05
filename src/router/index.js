@@ -11,6 +11,7 @@ import Static from '../views/static';
 import GetOTP from '../views/static/GetOTP.vue';
 // import LabDetails from '../views/static/LabDetails.vue';
 import NewDashboard from '../views/static/NewDashboard.vue';
+import RedeemVoucher from '../views/RedeemVoucher.vue';
 
 Vue.use(VueRouter);
 
@@ -86,8 +87,9 @@ const routes = [
         // }
     },
     {
-        path: '*',
-        redirect: '/'
+        path: '/voucher/redeem',
+        name: 'RedeemVoucher',
+        component: RedeemVoucher
     }
 ];
 
