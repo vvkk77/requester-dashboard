@@ -20,12 +20,16 @@ label, .label {font-weight: 600; font-size: 14px;}
   &:hover {background-color: #da4a54;}
 }
 
-.page-wrap {display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 50px;}
+.page-wrap {display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 50px;
+}
 .content-wrap {
   .logo {text-align: center; margin-bottom: 30px;
     img {max-width: 100px;}
   }
 }
+
+.page-content {max-width: 800px; margin: 0 auto; padding: 100px;}
+
 .form-wrap {}
 
 .log-in-form {max-width: 400px; border: 2px solid $grey; padding: 40px; border-radius: 5px;
@@ -34,6 +38,11 @@ label, .label {font-weight: 600; font-size: 14px;}
 
 .input {box-shadow: none; border: 1px solid #918291; height: 40px;
   &:focus {border-color: #000000; box-shadow: none;}
+}
+
+.select select {min-width: 150px;box-shadow: none; border: 1px solid #918291; height: 40px;
+  &:focus {border-color: #000000; box-shadow: none;}
+  
 }
 
 .field:not(:last-child) {margin-bottom: 20px;}

@@ -8,6 +8,7 @@ import ReEnterEmail from '../views/ReEnterEmail.vue';
 import ResetPassword from '../views/ResetPassword.vue';
 import Static from '../views/static';
 import GetOTP from '../views/static/GetOTP.vue';
+import LabDetails from '../views/static/LabDetails.vue';
 import NewDashboard from '../views/static/NewDashboard.vue';
 import { isSessionValid } from '../utils/session';
 
@@ -21,6 +22,10 @@ const routes = [
             {
                 path: 'getotp',
                 component: GetOTP
+            },
+            {
+                path: 'lab-details',
+                component: LabDetails
             },
             {
                 path: 'new-dashboard',
