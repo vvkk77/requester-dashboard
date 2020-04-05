@@ -12,6 +12,7 @@ import GetOTP from '../views/static/GetOTP.vue';
 // import LabDetails from '../views/static/LabDetails.vue';
 import NewDashboard from '../views/static/NewDashboard.vue';
 import RedeemVoucher from '../views/RedeemVoucher.vue';
+import VoucherDetails from '../views/VoucherDetails.vue';
 
 Vue.use(VueRouter);
 
@@ -90,6 +91,11 @@ const routes = [
         path: '/voucher/redeem',
         name: 'RedeemVoucher',
         component: RedeemVoucher
+    },
+    {
+        path: '/voucher/:id',
+        name: 'VoucherDetails',
+        component: VoucherDetails
     }
 ];
 

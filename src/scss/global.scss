@@ -1,48 +1,132 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-body {font-family: 'Poppins', sans-serif; font-weight: 400;}
+body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+}
 
-h1, h2, h3, h4, h5, h6 {font-family: 'Poppins', sans-serif; font-weight: 700;}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+}
 
 $grey: #918291;
 $red: #c32430;
 
-@mixin absolute-center() {display: flex; align-items: center; justify-content: center;}
-.text-center {text-align: center;}
+@mixin absolute-center() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.text-center {
+    text-align: center;
+}
 
 // a {color: $red; text-decoration: underline;}
 
-h2 {font-size: 25px; margin-bottom: 20px; line-height: normal;}
+h2 {
+    font-size: 25px;
+    margin-bottom: 20px;
+    line-height: normal;
+}
 
-label, .label {font-weight: 600; font-size: 14px;}
+label,
+.label {
+    font-weight: 600;
+    font-size: 14px;
+}
 
 // .button, .button.is-primary {background: $red; font-weight: 600; border-radius: 5px;
 //   &:hover {background-color: #da4a54;}
 // }
 
-.page-wrap {display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 50px;
+.page-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 50px;
 }
 .content-wrap {
-  .logo {text-align: center; margin-bottom: 30px;
-    img {max-width: 100px;}
-  }
+    .logo {
+        text-align: center;
+        margin-bottom: 30px;
+        img {
+            max-width: 100px;
+        }
+    }
 }
 
-.page-content {max-width: 600px; margin: 0 auto; padding: 100px 20px;}
-
-.form-wrap {}
-
-.log-in-form {max-width: 400px; border: 2px solid $grey; padding: 40px; border-radius: 5px;
-  .button {display: block; width: 100%; border: 0px; padding: 5px; height: 40px; margin-bottom: 20px; font-weight: 600; text-transform: uppercase;}
+.page-content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 100px 20px;
 }
 
-.input {box-shadow: none; border: 1px solid #918291; height: 40px;
-  &:focus {border-color: #000000; box-shadow: none;}
+.form-wrap {
 }
 
-.select select {min-width: 150px;box-shadow: none; border: 1px solid #918291; height: 40px;
-  &:focus {border-color: #000000; box-shadow: none;}
-
+.log-in-form {
+    max-width: 400px;
+    border: 2px solid $grey;
+    padding: 40px;
+    border-radius: 5px;
+    .button {
+        display: block;
+        width: 100%;
+        border: 0px;
+        padding: 5px;
+        height: 40px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
 }
 
-.field:not(:last-child) {margin-bottom: 20px;}
+.input {
+    box-shadow: none;
+    border: 1px solid #918291;
+    height: 40px;
+    &:focus {
+        border-color: #000000;
+        box-shadow: none;
+    }
+}
+
+.select select {
+    min-width: 150px;
+    box-shadow: none;
+    border: 1px solid #918291;
+    height: 40px;
+    &:focus {
+        border-color: #000000;
+        box-shadow: none;
+    }
+}
+
+.field:not(:last-child) {
+    margin-bottom: 20px;
+}
+
+.voucher-section {
+    padding: 4rem 1rem;
+
+    .logo {
+        max-width: 100px;
+        margin: 0 auto;
+    }
+}
+
+.voucher-details {
+    border: 2px solid $grey;
+    padding: 2rem;
+
+    .title {
+        margin-bottom: 2rem;
+    }
+}
