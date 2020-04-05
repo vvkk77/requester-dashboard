@@ -82,6 +82,7 @@ export default {
                 });
         },
         attemptLogin() {
+            /* eslint-disable no-console */
             console.log('attempt login');
         }
     }
