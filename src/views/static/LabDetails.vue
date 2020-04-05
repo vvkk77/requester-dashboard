@@ -74,9 +74,7 @@
 
 <script>
 export default {
-    mounted() {
-        console.log('add js here');
-    }
+    mounted() {}
 };
 </script>
 
