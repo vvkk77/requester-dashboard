@@ -72,11 +72,8 @@
     </section>
 </template>
 <script>
-export default {
-    mounted() {}
-};
+export default {};
 </script>
-
 <style lang="scss" scoped>
 .label-to {
     margin-right: 10px;

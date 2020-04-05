@@ -10,27 +10,12 @@
                 <div class="is-flex ai-center">
                     <div class="seperator"></div>
                     <div class="title is-4 has-text-white">
-                        Applicant Dashboard
+                        PathLabs Dashboard
                     </div>
                 </div>
             </template>
-
             <template slot="end">
                 <b-navbar-item tag="div">
-                    <b-dropdown aria-role="list" position="is-bottom-left">
-                        <button class="button is-outlined" slot="trigger">
-                            <span>{{ selectedLang }}</span>
-                            <b-icon icon="menu-down"></b-icon>
-                        </button>
-
-                        <b-dropdown-item
-                            :key="i"
-                            aria-role="listitem"
-                            v-for="(item, i) in langs"
-                            >{{ item }}</b-dropdown-item
-                        >
-                    </b-dropdown>
-
                     <b-dropdown aria-role="list" position="is-bottom-left">
                         <button class="button is-outlined" slot="trigger">
                             <span>Account</span>
@@ -42,7 +27,6 @@
                             <p>{{ user.email }}</p>
                         </b-dropdown-item>
                         <hr class="dropdown-divider" />
-
                         <b-dropdown-item
                             @click="logout"
                             aria-role="menuitem"

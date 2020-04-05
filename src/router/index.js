@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Dashboard from '../views/Dashboard.vue';
+import LabDetails from '../views/LabDetails.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import VerifyOTP from '../views/VerifyOTP.vue';
@@ -8,7 +9,7 @@ import ReEnterEmail from '../views/ReEnterEmail.vue';
 import ResetPassword from '../views/ResetPassword.vue';
 import Static from '../views/static';
 import GetOTP from '../views/static/GetOTP.vue';
-import LabDetails from '../views/static/LabDetails.vue';
+// import LabDetails from '../views/static/LabDetails.vue';
 import NewDashboard from '../views/static/NewDashboard.vue';
 
 Vue.use(VueRouter);
@@ -37,8 +38,14 @@ const routes = [
         name: Dashboard.name,
         component: Dashboard,
         meta: {
-            auth: true
-        }
+            // auth: true
+        },
+        children: [
+            {
+                path: 'lab-details',
+                component: LabDetails
+            }
+        ]
     },
     {
         path: '/login',
