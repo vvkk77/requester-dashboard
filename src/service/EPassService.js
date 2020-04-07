@@ -30,7 +30,6 @@ const hideLoader = () => {
     window.dispatchEvent(new CustomEvent(HIDE_LOADING));
 };
 
-// Add a request interceptor
 axios.interceptors.request.use(
     function(config) {
         showLoader();
