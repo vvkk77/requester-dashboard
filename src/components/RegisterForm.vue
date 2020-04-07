@@ -20,7 +20,7 @@
                 <b-field
                     :message="error.orgId"
                     :type="{ 'is-danger': !!error.orgId }"
-                    label="Organization ID"
+                    label="GSTIN Id"
                 >
                     <b-input
                         @blur="validateOrgId"
