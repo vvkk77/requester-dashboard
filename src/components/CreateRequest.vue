@@ -148,7 +148,7 @@ export default {
         },
 
         passTemplateFile() {
-            return `${window.location.protocol}//${window.location.host}${process.env.APPLICATION_PATH}pass-template.csv`;
+            return `${window.location.protocol}//${window.location.host}${process.env.APPLICATION_PATH}e-pass-template.csv`;
         }
     },
     methods: {

@@ -76,7 +76,7 @@
                             tag="a"
                             type="is-white"
                             v-if="props.row.zipFileURL"
-                            >DOWNLOAD QR</b-button
+                            >Download e-Passes</b-button
                         >
                     </b-table-column>
                 </template>
@@ -177,9 +177,9 @@ export default {
 
                 ele.click();
 
-                showSuccess(`QR codes downloaded successfully`);
+                showSuccess(`E-Passes downloaded successfully`);
             } catch (error) {
-                showError(`Unable to download QR codes`);
+                showError(`Unable to download E-Passes`);
             }
         },
         getStatusClass(status) {
