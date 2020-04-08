@@ -9,7 +9,8 @@
                     <transition appear mode="out-in" name="fade">
                         <div>
                             <div class="subtitle is-6">
-                                NOTE: You can claim upto 5,000 passes
+                                NOTE: You can claim upto
+                                {{ org.activePassLimit | formatNumber }} passes
                                 <br />only, in a single request
                             </div>
 
@@ -62,9 +63,9 @@
                                     icon="check-circle"
                                     type="is-success"
                                 ></b-icon>
-                                <span class="subtitle is-6">
-                                    {{ file.name }}
-                                </span>
+                                <span class="subtitle is-6">{{
+                                    file.name
+                                }}</span>
                             </div>
                             <br />
                             <div
@@ -128,7 +129,13 @@ export default {
         SideSheet
     },
     data() {
+        let org = localStorage.getItem('org');
+
+        if (org) {
+            org = JSON.parse(org);
+        }
         return {
+            org: org || {},
             selectedReason: 'Essential services',
             passType: 'person',
             file: null,
@@ -136,6 +143,12 @@ export default {
             loading: false,
             requestCreated: false
         };
+    },
+
+    filters: {
+        formatNumber(number) {
+            return new Intl.NumberFormat('en-IN').format(number);
+        }
     },
 
     computed: {
@@ -148,7 +161,9 @@ export default {
         },
 
         passTemplateFile() {
-            return `${window.location.protocol}//${window.location.host}${process.env.APPLICATION_PATH}e-pass-template.csv`;
+            return `${window.location.protocol}//${window.location.host}${
+                process.env.APPLICATION_PATH
+            }e-pass-template.csv?v=${Date.now()}`;
         }
     },
     methods: {

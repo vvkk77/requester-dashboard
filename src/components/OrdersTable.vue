@@ -177,9 +177,9 @@ export default {
 
                 ele.click();
 
-                showSuccess(`E-Passes downloaded successfully`);
+                showSuccess(`e-Passes downloaded successfully`);
             } catch (error) {
-                showError(`Unable to download E-Passes`);
+                showError(`Unable to download e-Passes`);
             }
         },
         getStatusClass(status) {
