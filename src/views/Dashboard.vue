@@ -117,6 +117,18 @@ export default {
     }
 }
 
+@media only screen and (max-width: 1024px) {
+    .app-body {
+        padding: 2rem;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .app-body {
+        padding: 1rem;
+    }
+}
+
 .no-request-image {
     text-align: center;
     padding: 80px 0;
