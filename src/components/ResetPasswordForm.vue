@@ -52,27 +52,16 @@
                         expanded
                         native-type="submit"
                         type="is-primary"
-                        >Login</b-button
+                        >Reset</b-button
                     >
                 </div>
             </form>
 
             <br />
-            <div class="is-size-6">
-                <span class="m-r-8">Forgot password?</span>
-                <router-link
-                    class="has-text-weight-semibold"
-                    to="/reset-password"
-                    >Click here</router-link
-                >
-            </div>
-
-            <br />
 
             <div class="is-size-6">
-                <span class="m-r-8">New user?</span>
-                <router-link class="has-text-weight-semibold" to="/register"
-                    >Register Now</router-link
+                <a @click="$router.go(-1)" class="has-text-weight-semibold"
+                    >Go Back</a
                 >
             </div>
         </section>
@@ -84,7 +73,7 @@ import EPassService from '../service/EPassService';
 import { getError } from '../utils/error-handler';
 
 export default {
-    name: 'LoginForm',
+    name: 'ResetPasswordForm',
     components: {},
     data() {
         return {

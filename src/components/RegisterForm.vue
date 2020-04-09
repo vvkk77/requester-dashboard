@@ -144,7 +144,7 @@ import dotProp from 'dot-prop';
 import { getError } from '../utils/error-handler';
 
 export default {
-    name: 'RegistrationForm',
+    name: 'RegisterForm',
     components: {},
 
     data() {

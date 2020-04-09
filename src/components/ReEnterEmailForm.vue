@@ -77,7 +77,7 @@ import EPassService from '../service/EPassService';
 import { getError } from '../utils/error-handler';
 
 export default {
-    name: 'LoginForm',
+    name: 'ReEnterEmailForm',
     components: {},
     data() {
         const email = sessionStorage.getItem('email');
@@ -143,6 +143,7 @@ export default {
 
                 this.loading = false;
                 sessionStorage.setItem('email', this.user.email.trim());
+                sessionStorage.setItem('state', this.user.state);
                 this.$router.push('/reset-password/verify-otp');
             } catch (error) {
                 this.loading = false;
