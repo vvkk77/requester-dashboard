@@ -31,6 +31,28 @@
                     ></b-input>
                 </b-field>
 
+                <b-field
+                    :message="error.state"
+                    :type="{ 'is-danger': !!error.state }"
+                    label="State"
+                >
+                    <b-select
+                        :disabled="Object.keys(stateMap).length === 0"
+                        @change="validateState"
+                        @focus="error.state = ''"
+                        expanded
+                        placeholder="Select a state"
+                        v-model="user.state"
+                    >
+                        <option
+                            :key="index"
+                            :value="state"
+                            v-for="(state, index) in stateMap"
+                            >{{ state }}</option
+                        >
+                    </b-select>
+                </b-field>
+
                 <div
                     class="is-size-7 has-text-danger has-text-weight-semibold"
                     v-if="apiError"
@@ -84,7 +106,7 @@
 </template>
 
 <script>
-import { isValidEmail } from '../utils/helpers';
+import { isValidEmail, getParameterByName } from '../utils/helpers';
 import EPassService from '../service/EPassService';
 import { saveAuthToken, save } from '../utils/session';
 import { getError } from '../utils/error-handler';
@@ -96,11 +118,13 @@ export default {
         return {
             user: {
                 email: '',
-                pass: ''
+                pass: '',
+                state: null
             },
             error: {
                 email: '',
-                pass: ''
+                pass: '',
+                state: ''
             },
             loading: false,
 
@@ -112,12 +136,26 @@ export default {
             return (
                 this.apiError && this.apiError.indexOf('verify your email') > -1
             );
+        },
+        stateMap() {
+            return this.$store.state.stateMap;
         }
     },
 
     watch: {
         verifyEmailError() {
             sessionStorage.setItem('email', this.user.email);
+        },
+
+        'user.email'(value) {
+            if (isValidEmail(value)) {
+                sessionStorage.setItem('email', value);
+            }
+        },
+        'user.state'(state) {
+            if (state) {
+                sessionStorage.setItem('state', state);
+            }
         }
     },
 
@@ -137,11 +175,28 @@ export default {
             }
         },
 
+        validateState() {
+            this.error.state = '';
+
+            const foundState = Object.keys(this.stateMap).find(
+                i => this.stateMap[i] === this.user.state
+            );
+
+            if (!foundState) {
+                this.user.state = null;
+            }
+
+            if (!this.user.state) {
+                this.error.state = 'Please select a state';
+            }
+        },
+
         isValid() {
             this.validateEmail();
             this.validatePassword();
+            this.validateState();
 
-            return !this.error.email && !this.error.pass;
+            return !this.error.email && !this.error.pass && !this.error.state;
         },
 
         async login() {
@@ -154,29 +209,31 @@ export default {
             try {
                 const { data } = await EPassService.signIn(
                     this.user.email.trim(),
-                    this.user.pass.trim()
+                    this.user.pass.trim(),
+                    this.user.state
                 );
 
                 this.loading = false;
 
-                const { authToken, accountID, accountName } = data;
+                const { authToken, accountID } = data;
 
                 saveAuthToken(authToken);
                 save('accountID', accountID);
-
-                localStorage.setItem(
-                    'user',
-                    JSON.stringify({
-                        email: this.user.email,
-                        name: accountName
-                    })
-                );
 
                 this.$router.replace('/');
             } catch (error) {
                 this.loading = false;
                 this.apiError = getError(error);
             }
+        }
+    },
+    created() {
+        sessionStorage.clear();
+
+        const state =
+            getParameterByName('state') || getParameterByName('stateName');
+        if (state) {
+            this.user.state = state.toUpperCase();
         }
     }
 };

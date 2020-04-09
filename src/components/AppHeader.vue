@@ -13,7 +13,12 @@
                 />
             </router-link>
             <div class="seperator"></div>
-            <span class="title is-4 has-text-white">Applicant Dashboard</span>
+            <span class="title is-4 has-text-white">
+                Applicant Dashboard
+                <b class="title is-4 has-text-white" v-if="user.stateName"
+                    >[{{ user.stateName }}]</b
+                >
+            </span>
         </div>
         <div class="is-flex header-end">
             <b-dropdown aria-role="list" position="is-bottom-left">
@@ -59,16 +64,14 @@
 
 <script>
 import { clearSession } from '../utils/session';
+import EPassService from '../service/EPassService';
 export default {
     name: 'AppHeader',
     data() {
-        let user = localStorage.getItem('user');
-        if (user) user = JSON.parse(user);
-
         return {
             selectedLang: 'En',
             langs: ['Hi'],
-            user: user || {}
+            user: {}
         };
     },
     methods: {
@@ -77,7 +80,16 @@ export default {
             clearSession();
 
             window.location.reload();
+        },
+
+        async fetchProfile() {
+            const { data } = await EPassService.getRequesterUserProfile();
+            this.user = data;
         }
+    },
+
+    created() {
+        this.fetchProfile();
     }
 };
 </script>

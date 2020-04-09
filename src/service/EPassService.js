@@ -59,31 +59,39 @@ axios.interceptors.response.use(
 );
 
 export default {
-    signIn(email, password) {
-        return axios.post('/signin', { email, password, accountType: 'user' });
+    signIn(email, password, stateName) {
+        return axios.post('/signin', {
+            email,
+            password,
+            accountType: 'user',
+            stateName
+        });
     },
 
-    createAccount({ name, email, password, orgID, orgName }) {
+    createAccount({ name, email, password, orgID, orgName, stateName }) {
         return axios.post('/createAccount', {
             name,
             email,
             password,
             orgID,
-            orgName
+            orgName,
+            stateName
         });
     },
 
-    verifyOTP({ emailId, otp }) {
+    verifyOTP({ emailId, otp, stateName }) {
         return axios.post('/verifyOTP', {
             identifier: emailId,
             accountIdentifierType: 'email',
-            otp
+            otp,
+            stateName
         });
     },
 
-    requestOTP(emailId) {
+    requestOTP(emailId, stateName) {
         return axios.post('/requestOTP', {
             identifier: emailId,
+            stateName,
             accountIdentifierType: 'email'
         });
     },
@@ -107,6 +115,14 @@ export default {
         });
     },
 
+    getRequesterUserProfile() {
+        return axios.post(`/getRequesterUserProfile`, null, {
+            params: {
+                authToken: getAuthToken()
+            }
+        });
+    },
+
     getOrders() {
         return axios.post('/getOrders', {
             accountID: get('accountID'),
@@ -118,5 +134,9 @@ export default {
         return axios.post('/getOrganization', {
             authToken: getAuthToken()
         });
+    },
+
+    fetchStateList() {
+        return axios.post(`/fetchStateList`);
     }
 };

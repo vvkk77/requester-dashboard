@@ -31,6 +31,28 @@
                 </b-field>
 
                 <b-field
+                    :message="error.state"
+                    :type="{ 'is-danger': !!error.state }"
+                    label="State"
+                >
+                    <b-select
+                        :disabled="Object.keys(stateMap).length === 0"
+                        @change="validateState"
+                        @focus="error.state = ''"
+                        expanded
+                        placeholder="Select a state"
+                        v-model="user.state"
+                    >
+                        <option
+                            :key="index"
+                            :value="state"
+                            v-for="(state, index) in stateMap"
+                            >{{ state }}</option
+                        >
+                    </b-select>
+                </b-field>
+
+                <b-field
                     :message="error.name"
                     :type="{ 'is-danger': !!error.name }"
                     label="Your name"
@@ -133,7 +155,8 @@ export default {
                 name: '',
                 email: '',
                 pass: '',
-                cpass: ''
+                cpass: '',
+                state: null
             },
             error: {
                 orgName: '',
@@ -141,11 +164,17 @@ export default {
                 name: '',
                 email: '',
                 pass: '',
-                cpass: ''
+                cpass: '',
+                state: ''
             },
             loading: false,
             apiError: null
         };
+    },
+    computed: {
+        stateMap() {
+            return this.$store.state.stateMap;
+        }
     },
     methods: {
         validateEmail() {
@@ -178,6 +207,13 @@ export default {
             }
         },
 
+        validateState() {
+            this.error.state = '';
+            if (!this.user.state) {
+                this.error.state = 'Please select a state';
+            }
+        },
+
         validateOrgId() {
             this.error.orgId = '';
             if (!this.user.orgId) {
@@ -200,6 +236,7 @@ export default {
         isValid() {
             this.validateName();
             this.validateOrgName();
+            this.validateState();
             this.validateOrgId();
             this.validateEmail();
             this.validatePassword();
@@ -215,19 +252,21 @@ export default {
 
             this.loading = true;
             try {
-                const { name, email, pass, orgId, orgName } = this.user;
+                const { name, email, pass, orgId, orgName, state } = this.user;
 
                 await EPassService.createAccount({
                     email: email.trim(),
                     name: name.trim(),
                     password: pass.trim(),
                     orgName: orgName.trim(),
-                    orgID: orgId.trim()
+                    orgID: orgId.trim(),
+                    stateName: state
                 });
 
                 this.loading = false;
 
                 sessionStorage.setItem('email', email.trim());
+                sessionStorage.setItem('state', state);
                 this.$router.push('/verify-otp');
             } catch (error) {
                 const message = dotProp.get(error, 'response.data.message');

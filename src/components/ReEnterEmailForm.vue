@@ -17,6 +17,28 @@
                     ></b-input>
                 </b-field>
 
+                <b-field
+                    :message="error.state"
+                    :type="{ 'is-danger': !!error.state }"
+                    label="State"
+                >
+                    <b-select
+                        :disabled="Object.keys(stateMap).length === 0"
+                        @change="validateState"
+                        @focus="error.state = ''"
+                        expanded
+                        placeholder="Select a state"
+                        v-model="user.state"
+                    >
+                        <option
+                            :key="index"
+                            :value="state"
+                            v-for="(state, index) in stateMap"
+                            >{{ state }}</option
+                        >
+                    </b-select>
+                </b-field>
+
                 <div
                     class="is-size-7 has-text-danger has-text-weight-semibold"
                     v-if="apiError"
@@ -58,17 +80,28 @@ export default {
     name: 'LoginForm',
     components: {},
     data() {
+        const email = sessionStorage.getItem('email');
+        const state = sessionStorage.getItem('state');
+
         return {
             user: {
-                email: ''
+                email: email || '',
+                state: state || null
             },
             error: {
-                email: ''
+                email: '',
+                state: ''
             },
             loading: false,
 
             apiError: null
         };
+    },
+
+    computed: {
+        stateMap() {
+            return this.$store.state.stateMap;
+        }
     },
 
     methods: {
@@ -81,10 +114,18 @@ export default {
             }
         },
 
+        validateState() {
+            this.error.state = '';
+            if (!this.user.state) {
+                this.error.state = 'Please select a state';
+            }
+        },
+
         isValid() {
             this.validateEmail();
+            this.validateState();
 
-            return !this.error.email;
+            return !this.error.email && !this.error.state;
         },
 
         async requestOTP() {
@@ -95,7 +136,10 @@ export default {
 
             this.loading = true;
             try {
-                await EPassService.requestOTP(this.user.email.trim());
+                await EPassService.requestOTP(
+                    this.user.email.trim(),
+                    this.user.state
+                );
 
                 this.loading = false;
                 sessionStorage.setItem('email', this.user.email.trim());

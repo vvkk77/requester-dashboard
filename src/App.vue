@@ -21,8 +21,14 @@ export default {
             loading: false
         };
     },
+    methods: {
+        fetchStateList() {
+            this.$store.dispatch('fetchStateList');
+        }
+    },
 
     created() {
+        this.fetchStateList();
         window.addEventListener(SHOW_LOADING, () => (this.loading = true));
         window.addEventListener(HIDE_LOADING, () => (this.loading = false));
         window.addEventListener('LOGIN', () => {

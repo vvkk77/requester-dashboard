@@ -61,7 +61,7 @@
 <script>
 import EPassService from '../service/EPassService';
 import dotprop from 'dot-prop';
-import { showSuccess } from '../utils/toast';
+import { showSuccess, showError } from '../utils/toast';
 
 export default {
     name: 'VerifyOTPForm',
@@ -69,12 +69,14 @@ export default {
     components: {},
     data() {
         const email = sessionStorage.getItem('email');
+        const state = sessionStorage.getItem('state');
         sessionStorage.clear();
 
         return {
             emailId: email,
             user: {
-                otp: ''
+                otp: '',
+                state: state
             },
             error: {
                 otp: ''
@@ -110,7 +112,8 @@ export default {
             try {
                 const { data } = await EPassService.verifyOTP({
                     emailId: this.emailId,
-                    otp: this.user.otp.trim()
+                    otp: this.user.otp.trim(),
+                    stateName: this.user.state
                 });
 
                 this.loading = false;
@@ -133,11 +136,11 @@ export default {
 
         async resendOTP() {
             try {
-                await EPassService.requestOTP(this.emailId);
+                await EPassService.requestOTP(this.emailId, this.user.state);
 
                 showSuccess(`OTP sent to ${this.emailId}`);
             } catch (error) {
-                showSuccess(`Unable to send OTP`);
+                showError(`Unable to send OTP`);
             }
         }
     },
