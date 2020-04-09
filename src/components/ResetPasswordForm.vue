@@ -2,10 +2,6 @@
     <div class="login-form">
         <div class="title">Reset password</div>
 
-        <div class="subtitle is-6">
-            Enter OTP sent to:
-            <span>{{ emailId }}</span>
-        </div>
         <section>
             <form @submit.prevent.stop>
                 <b-field
