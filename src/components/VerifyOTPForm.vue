@@ -1,72 +1,77 @@
 <template>
-    <div class="verify-otp-form">
-        <div class="title">Enter OTP</div>
+    <transition mode="out-in" name="fade">
+        <div class="verify-otp-form" v-if="!accCreated">
+            <div class="title">Enter OTP</div>
 
-        <div></div>
+            <div></div>
 
-        <div class="subtitle is-6">
-            Enter OTP sent to:
-            <span>{{ emailId }}</span>
-        </div>
-        <section>
-            <form @submit.prevent.stop>
-                <b-field
-                    :message="error.otp"
-                    :type="{ 'is-danger': !!error.otp }"
-                    label="Enter 6 digit OTP"
-                >
-                    <b-input
-                        @blur="validateOTP"
-                        @focus="error.otp = ''"
-                        maxlength="6"
-                        type="number"
-                        v-model="user.otp"
-                    ></b-input>
-                </b-field>
+            <div class="subtitle is-6">
+                Enter OTP sent to:
+                <span>{{ emailId }}</span>
+            </div>
+            <section>
+                <form @submit.prevent.stop>
+                    <b-field
+                        :message="error.otp"
+                        :type="{ 'is-danger': !!error.otp }"
+                        label="Enter 6 digit OTP"
+                    >
+                        <b-input
+                            @blur="validateOTP"
+                            @focus="error.otp = ''"
+                            maxlength="6"
+                            type="number"
+                            v-model="user.otp"
+                        ></b-input>
+                    </b-field>
 
-                <div class="buttons m-y-48">
-                    <b-button
-                        :disabled="loading"
-                        :loading="loading"
-                        @click="verifyOTP"
-                        class="has-text-weight-bold"
-                        expanded
-                        native-type="submit"
-                        type="is-primary"
-                        >Verify email</b-button
+                    <div class="buttons m-y-48">
+                        <b-button
+                            :disabled="loading"
+                            :loading="loading"
+                            @click="verifyOTP"
+                            class="has-text-weight-bold"
+                            expanded
+                            native-type="submit"
+                            type="is-primary"
+                            >Verify email</b-button
+                        >
+                    </div>
+                </form>
+
+                <br />
+                <div class="is-size-6">
+                    <span class="m-r-8">Didn’t receive the OTP?</span>
+                    <a @click="resendOTP" class="has-text-weight-semibold"
+                        >Resend OTP</a
                     >
                 </div>
-            </form>
 
-            <br />
-            <div class="is-size-6">
-                <span class="m-r-8">Didn’t receive the OTP?</span>
-                <a @click="resendOTP" class="has-text-weight-semibold"
-                    >Resend OTP</a
-                >
-            </div>
+                <br />
 
-            <br />
-
-            <div class="is-size-6">
-                <span class="m-r-8">Incorrect email?</span>
-                <a @click="$router.go(-1)" class="has-text-weight-semibold"
-                    >Go Back</a
-                >
-            </div>
-        </section>
-    </div>
+                <div class="is-size-6">
+                    <span class="m-r-8">Incorrect email?</span>
+                    <a @click="$router.go(-1)" class="has-text-weight-semibold"
+                        >Go Back</a
+                    >
+                </div>
+            </section>
+        </div>
+        <account-creation-success v-else></account-creation-success>
+    </transition>
 </template>
 
 <script>
 import EPassService from '../service/EPassService';
 import dotprop from 'dot-prop';
 import { showSuccess, showError } from '../utils/toast';
+import AccountCreationSuccess from './AccountCreationSuccess';
 
 export default {
     name: 'VerifyOTPForm',
-
-    components: {},
+    components: {
+        AccountCreationSuccess
+    },
     data() {
         const email = sessionStorage.getItem('email');
         const state = sessionStorage.getItem('state');
@@ -81,7 +86,8 @@ export default {
             error: {
                 otp: ''
             },
-            loading: false
+            loading: false,
+            accCreated: false
         };
     },
     methods: {
@@ -122,7 +128,9 @@ export default {
                     sessionStorage.setItem('email', this.emailId);
                     sessionStorage.setItem('auth', data.authToken);
                     this.$router.replace('/reset-password/update');
-                } else this.$router.replace('/login');
+                } else {
+                    this.accCreated = true;
+                }
             } catch (error) {
                 this.loading = false;
                 const message = dotprop.get(error, 'response.data.message');
